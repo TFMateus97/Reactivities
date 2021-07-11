@@ -10,6 +10,9 @@ interface Props {
   selectedActivity: Activity | undefined; //como no App.tsc foi espeficiado que pode ser um tipo Activity ou Undefined, todos os componentes que utilizarem essa propriedade precisam declara ela como sendo do mesmo tipo (Activity | undefined)
   selectActivity: (id: string) => void; //como é uma função, precisa especificar o tipo de retorno
   cancelSelectActivity: () => void;
+  editMode: boolean;
+  openForm: (id: string) => void;
+  closeForm: () => void;
 }
 
 export default function ActivityDashboard({
@@ -17,6 +20,9 @@ export default function ActivityDashboard({
   selectedActivity,
   selectActivity,
   cancelSelectActivity,
+  editMode,
+  openForm,
+  closeForm,
 }: Props) {
   //especificando que está pegando activities de Props
   return (
@@ -29,13 +35,19 @@ export default function ActivityDashboard({
         ></ActivityList>
       </Grid.Column>
       <Grid.Column width="6">
-        {selectedActivity && (
+        {selectedActivity && !editMode && (
           <ActivityDetails
             activity={selectedActivity}
             cancelSelectActivity={cancelSelectActivity}
+            openForm={openForm}
           ></ActivityDetails> //é uma forma de garantir que o componente só vai ser carregado depois que ele existir
         )}
-        <ActivityForm></ActivityForm>
+        {editMode && (
+          <ActivityForm
+            closeForm={closeForm}
+            activity={selectedActivity}
+          ></ActivityForm>
+        )}
       </Grid.Column>
     </Grid>
   ); //Atualmente vai ficar "hard coded" sempre pegando o primeiro, será removido posteriormente
