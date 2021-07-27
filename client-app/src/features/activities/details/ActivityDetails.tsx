@@ -1,13 +1,25 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Button, Card, Image } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
 
-export default function ActivityDetails() {
+export default observer(function ActivityDetails() {
   const { activityStore } = useStore();
-  const { selectedActivity: activity } = activityStore;
+  const {
+    selectedActivity: activity,
+    loadingInitial,
+    loadActivity,
+  } = activityStore;
+  const { id } = useParams<{ id: string }>();
 
-  if (!activity) return <LoadingComponent></LoadingComponent>;
+  useEffect(() => {
+    if (id) loadActivity(id);
+  }, [id, loadActivity]);
+
+  if (loadingInitial || !activity) return <LoadingComponent></LoadingComponent>;
 
   return (
     <Card fluid>
@@ -21,21 +33,11 @@ export default function ActivityDetails() {
       </Card.Content>
       <Card.Content extra>
         <Button.Group widths="2">
-          <Button
-            basic
-            onClick={() => activityStore.openForm(activity.id)}
-            color="blue"
-            content="Edit"
-          ></Button>
-          <Button
-            basic
-            onClick={activityStore.cancelSelectedActivity}
-            color="grey"
-            content="Cancel"
-          ></Button>
+          <Button basic color="blue" content="Edit"></Button>
+          <Button basic color="grey" content="Cancel"></Button>
           {/* Como essa função nao tem parametros, nao se utiliza a arrowfunction, caso utilize, não vai funcionarx  */}
         </Button.Group>
       </Card.Content>
     </Card>
   );
-}
+});
