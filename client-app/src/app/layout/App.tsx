@@ -13,18 +13,30 @@ function App() {
 
   return (
     <>
-      <NavBar></NavBar>
-      <Container style={{ marginTop: "7em" }}>
-        {/*  Garantir que o nome da rota seja apenas o informado no path */}
-        <Route exact path="/" component={HomePage}></Route>
-        <Route exact path="/activities" component={ActivityDashboard}></Route>
-        <Route path="/activities/:id" component={ActivityDetails}></Route>
-        <Route
-          key={location.key}
-          path={["/createActivity", "/manage/:id"]}
-          component={ActivityForm}
-        ></Route>
-      </Container>
+      <Route exact path="/" component={HomePage}></Route>
+
+      <Route
+        path={"/(.+)"}
+        render={() => (
+          <>
+            <NavBar></NavBar>
+            <Container style={{ marginTop: "7em" }}>
+              {/*  Garantir que o nome da rota seja apenas o informado no path */}
+              <Route
+                exact
+                path="/activities"
+                component={ActivityDashboard}
+              ></Route>
+              <Route path="/activities/:id" component={ActivityDetails}></Route>
+              <Route
+                key={location.key}
+                path={["/createActivity", "/manage/:id"]}
+                component={ActivityForm}
+              ></Route>
+            </Container>
+          </>
+        )}
+      ></Route>
     </>
   );
 }
