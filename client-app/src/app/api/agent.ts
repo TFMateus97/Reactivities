@@ -18,13 +18,23 @@ axios.interceptors.response.use(async response => {
     const {data, status} = error.response!;
     switch(status){
         case 400:
-            toast.error("Bad Request");
+            if(data.errors){
+                const modelStateErros = [];
+                for(const key in data.errors){
+                    if(data.errors[key]){
+                        modelStateErros.push(data.errors[key]);
+                    }
+                }
+                throw modelStateErros.flat();
+            } else{
+                toast.error(data);
+            }
             break;
         case 401:
             toast.error("unauthorized");
             break;
         case 404:
-            toast.error("not found");
+            // history.push("/not-found");
             break;
         case 500:
             toast.error("internal server error");
