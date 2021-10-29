@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
+import { history } from '../..';
 import { Activity } from '../models/activity';
+import { store } from '../stores/store';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -34,10 +36,11 @@ axios.interceptors.response.use(async response => {
             toast.error("unauthorized");
             break;
         case 404:
-            // history.push("/not-found");
+            history.push("/not-found");
             break;
         case 500:
-            toast.error("internal server error");
+            store.commomStore.setServerError(data);
+            history.push('/server-error')
             break;
             
     }
