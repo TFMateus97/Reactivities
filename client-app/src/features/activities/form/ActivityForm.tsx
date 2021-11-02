@@ -1,14 +1,17 @@
 import { observer } from "mobx-react-lite";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { Segment, Button, Label } from "semantic-ui-react";
+import { Segment, Button } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
-import { v4 as uuid } from "uuid";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
+import MySelectInput from "../../../app/common/form/MySelectInput";
+import { categoryOptions } from "../../../app/common/options/CategoryOptions";
+import MyDateInput from "../../../app/common/form/MyDateInput";
+import { Activity } from "../../../app/models/activity";
 
 export default observer(function ActivityForm() {
   const { activityStore } = useStore();
@@ -22,12 +25,12 @@ export default observer(function ActivityForm() {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
 
-  const [activity, setActivity] = useState({
+  const [activity, setActivity] = useState<Activity>({
     id: "",
     title: "",
     category: "",
     description: "",
-    date: "",
+    date: null,
     city: "",
     venue: "",
   });
@@ -44,32 +47,6 @@ export default observer(function ActivityForm() {
   useEffect(() => {
     if (id) loadActivity(id).then((activity) => setActivity(activity!));
   }, [id, loadActivity]);
-
-  // function handleSubmit() {
-  //   if (activity.id.length === 0) {
-  //     let newActivity = {
-  //       ...activity,
-  //       id: uuid(),
-  //     };
-  //     createActivity(newActivity).then(() =>
-  //       history.push(`/activities/${newActivity.id}`)
-  //     );
-  //   } else {
-  //     updateActivity(activity).then(() =>
-  //       history.push(`/activities/${activity.id}`)
-  //     );
-  //   }
-  // }
-
-  // function handleChange(
-  //   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) {
-  //   const { name, value } = event.target;
-  //   setActivity({
-  //     ...activity,
-  //     [name]: value,
-  //   });
-  // }
 
   if (loadingInitial)
     return <LoadingComponent content="Loading activity..."></LoadingComponent>;
@@ -90,8 +67,18 @@ export default observer(function ActivityForm() {
               placeholder="Description"
               name="description"
             ></MyTextArea>
-            <MyTextInput placeholder="Category" name="category"></MyTextInput>
-            <MyTextInput placeholder="Date" name="date"></MyTextInput>
+            <MySelectInput
+              placeholder="Category"
+              name="category"
+              options={categoryOptions}
+            ></MySelectInput>
+            <MyDateInput
+              showTimeSelect
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
+              placeholderText="Date"
+              name="date"
+            ></MyDateInput>
             <MyTextInput placeholder="City" name="city"></MyTextInput>
             <MyTextInput placeholder="Venue" name="venue"></MyTextInput>
             <Button
