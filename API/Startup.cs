@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Persistence;
 using FluentValidation.AspNetCore;
 using API.Middleware;
+using API.Extensions;
 
 namespace API
 {
@@ -51,6 +52,8 @@ namespace API
 
             services.AddMediatR(typeof(List.Handler).Assembly);//indicando onde os handlers estarão localizados
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);//indicando onde no projeto os mapping profiles estarão localizados
+
+            services.AddIdentityServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
