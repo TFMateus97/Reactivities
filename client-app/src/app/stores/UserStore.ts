@@ -20,12 +20,12 @@ export default class UserStore {
             const user = await agent.Account.login(creds);
             store.commomStore.setToken(user.token);
             runInAction(() => this.user = user);
-            history.push('/activities')
+            history.push('/activities');
         } catch (error){
             throw error;
         }
     }
-    
+
     logout = () => {
         store.commomStore.setToken(null);
         window.localStorage.removeItem('jwt');
