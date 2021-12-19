@@ -15,7 +15,7 @@ export default observer(function ActivityDashboard() {
   }, [activityRegistry.size, loadActivities]);
 
   if (activityStore.loadingInitial)
-    return <LoadingComponent content="Loading App"></LoadingComponent>;
+    return <LoadingComponent content="Loading Activities"></LoadingComponent>;
 
   return (
     //o total de colunas possível aqui são 16

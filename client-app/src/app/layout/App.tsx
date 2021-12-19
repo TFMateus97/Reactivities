@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import NavBar from "./NavBar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
@@ -12,48 +12,76 @@ import { ToastContainer } from "react-toastify";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
 import LoginForm from "../../features/users/LoginForm";
+import { useStore } from "../stores/store";
+import LoadingComponent from "./LoadingComponent";
+import ModalContainer from "../common/modals/modalContainer";
 
 function App() {
-  const location = useLocation();
+    const location = useLocation();
+    const { commomStore, userStore } = useStore();
 
-  return (
-    <>
-      <ToastContainer position="bottom-right" hideProgressBar></ToastContainer>
-      <Route exact path="/" component={HomePage}></Route>
+    useEffect(() => {
+        if (commomStore.token) {
+            userStore.getUser().finally(() => commomStore.setAppLoaded());
+        } else {
+            commomStore.setAppLoaded();
+        }
+    }, [commomStore, userStore]);
 
-      <Route
-        path={"/(.+)"}
-        render={() => (
-          <>
-            <NavBar></NavBar>
-            <Container style={{ marginTop: "7em" }}>
-              {/*  Garantir que o nome da rota seja apenas o informado no path */}
-              <Switch>
-                <Route
-                  exact
-                  path="/activities"
-                  component={ActivityDashboard}
-                ></Route>
-                <Route
-                  path="/activities/:id"
-                  component={ActivityDetails}
-                ></Route>
-                <Route
-                  key={location.key}
-                  path={["/createActivity", "/manage/:id"]}
-                  component={ActivityForm}
-                ></Route>
-                <Route path="/errors" component={TestErrors}></Route>
-                <Route path="/server-errors" component={ServerError}></Route>
-                <Route path="/login" component={LoginForm}></Route>
-                <Route component={NotFound}></Route>
-              </Switch>
-            </Container>
-          </>
-        )}
-      ></Route>
-    </>
-  );
+    if (!commomStore.appLoaded)
+        return <LoadingComponent content="Loading app..."></LoadingComponent>;
+
+    return (
+        <>
+            <ToastContainer
+                position="bottom-right"
+                hideProgressBar
+            ></ToastContainer>
+            <ModalContainer />
+            <Route exact path="/" component={HomePage}></Route>
+
+            <Route
+                path={"/(.+)"}
+                render={() => (
+                    <>
+                        <NavBar></NavBar>
+                        <Container style={{ marginTop: "7em" }}>
+                            {/*  Garantir que o nome da rota seja apenas o informado no path */}
+                            <Switch>
+                                <Route
+                                    exact
+                                    path="/activities"
+                                    component={ActivityDashboard}
+                                ></Route>
+                                <Route
+                                    path="/activities/:id"
+                                    component={ActivityDetails}
+                                ></Route>
+                                <Route
+                                    key={location.key}
+                                    path={["/createActivity", "/manage/:id"]}
+                                    component={ActivityForm}
+                                ></Route>
+                                <Route
+                                    path="/errors"
+                                    component={TestErrors}
+                                ></Route>
+                                <Route
+                                    path="/server-errors"
+                                    component={ServerError}
+                                ></Route>
+                                <Route
+                                    path="/login"
+                                    component={LoginForm}
+                                ></Route>
+                                <Route component={NotFound}></Route>
+                            </Switch>
+                        </Container>
+                    </>
+                )}
+            ></Route>
+        </>
+    );
 }
 
 export default observer(App);
