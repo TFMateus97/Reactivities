@@ -14,6 +14,8 @@ using API.Middleware;
 using API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Application.Interfaces;
+using Infrastructure.Security;
 
 namespace API
 {
@@ -59,6 +61,7 @@ namespace API
 
             services.AddMediatR(typeof(List.Handler).Assembly);//indicando onde os handlers estarão localizados
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);//indicando onde no projeto os mapping profiles estarão localizados
+            services.AddScoped<IUserAccessor, UserAccessor>(); //agora é possível obter o usuário logado
 
             services.AddIdentityServices(_config);
         }
