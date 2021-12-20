@@ -5,7 +5,6 @@ namespace Domain
 {
     public class Activity
     {
-
         public Guid Id { get; set; }
         //[Required] - faria com que o campo fosse obrigatorio, caso estivesse vazia a api retornaria um erro
         public string Title { get; set; }
@@ -14,6 +13,7 @@ namespace Domain
         public string Category { get; set; }
         public string City { get; set; }
         public string Venue { get; set; }
+        public bool IsCancelled { get; set; }
         public ICollection<ActivityAttendee> Attendees { get; set; } = new List<ActivityAttendee>();
     }
 }
