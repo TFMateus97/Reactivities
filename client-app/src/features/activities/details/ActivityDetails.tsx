@@ -10,30 +10,37 @@ import ActivityDetailedInfo from "./ActivityDetailedInfo";
 import ActivityDetailedSideBar from "./ActivityDetailedSideBar";
 
 export default observer(function ActivityDetails() {
-  const { activityStore } = useStore();
-  const {
-    selectedActivity: activity,
-    loadingInitial,
-    loadActivity,
-  } = activityStore;
-  const { id } = useParams<{ id: string }>();
+    const { activityStore } = useStore();
+    const {
+        selectedActivity: activity,
+        loadingInitial,
+        loadActivity,
+    } = activityStore;
+    const { id } = useParams<{ id: string }>();
 
-  useEffect(() => {
-    if (id) loadActivity(id);
-  }, [id, loadActivity]);
+    useEffect(() => {
+        if (id) loadActivity(id);
+    }, [id, loadActivity]);
 
-  if (loadingInitial || !activity) return <LoadingComponent></LoadingComponent>;
+    if (loadingInitial || !activity)
+        return <LoadingComponent></LoadingComponent>;
 
-  return (
-    <Grid>
-      <Grid.Column width={10}>
-        <ActivityDetailedHeader activity={activity}></ActivityDetailedHeader>
-        <ActivityDetailedInfo activity={activity}></ActivityDetailedInfo>
-        <ActivityDetailedChat></ActivityDetailedChat>
-      </Grid.Column>
-      <Grid.Column width={6}>
-        <ActivityDetailedSideBar></ActivityDetailedSideBar>
-      </Grid.Column>
-    </Grid>
-  );
+    return (
+        <Grid>
+            <Grid.Column width={10}>
+                <ActivityDetailedHeader
+                    activity={activity}
+                ></ActivityDetailedHeader>
+                <ActivityDetailedInfo
+                    activity={activity}
+                ></ActivityDetailedInfo>
+                <ActivityDetailedChat></ActivityDetailedChat>
+            </Grid.Column>
+            <Grid.Column width={6}>
+                <ActivityDetailedSideBar
+                    activity={activity}
+                ></ActivityDetailedSideBar>
+            </Grid.Column>
+        </Grid>
+    );
 });
