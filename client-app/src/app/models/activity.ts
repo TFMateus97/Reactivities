@@ -1,4 +1,3 @@
-import { object } from "yup/lib/locale";
 import { Profile } from "./profile";
 
 export interface Activity {

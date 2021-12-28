@@ -1,4 +1,3 @@
-import axios from "axios";
 import { format } from "date-fns";
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";

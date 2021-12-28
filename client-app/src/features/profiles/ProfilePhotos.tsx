@@ -1,23 +1,52 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
-import { Card, Header, Tab, Image } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Card, Header, Tab, Image, Grid, Button } from "semantic-ui-react";
+import PhotoUploadWidget from "../../app/imageUpload/PhotoUploadWidget";
 import { Profile } from "../../app/models/profile";
+import { useStore } from "../../app/stores/store";
 
 interface Props {
     profile: Profile;
 }
 
 export default observer(function ProfilePhotos({ profile }: Props) {
+    const {
+        profileStore: { isCurrentUser },
+    } = useStore();
+    const [addPhotoMode, setAddPhotoMode] = useState(false);
+
     return (
         <Tab.Pane>
-            <Header icon="image" content="Photos"></Header>
-            <Card.Group itemsPerRow={5}>
-                {profile.photos?.map((photo) => (
-                    <Card key={photo.id}>
-                        <Image src={photo.url}></Image>
-                    </Card>
-                ))}
-            </Card.Group>
+            <Grid>
+                <Grid.Column width={16}>
+                    <Header
+                        floated="left"
+                        icon="image"
+                        content="Photos"
+                    ></Header>
+                    {isCurrentUser && (
+                        <Button
+                            floated="left"
+                            basic
+                            content={addPhotoMode ? "Cancel" : "Add Photo"}
+                            onClick={() => setAddPhotoMode(!addPhotoMode)}
+                        ></Button>
+                    )}
+                </Grid.Column>
+                <Grid.Column width={16}>
+                    {addPhotoMode ? (
+                        <PhotoUploadWidget />
+                    ) : (
+                        <Card.Group itemsPerRow={5}>
+                            {profile.photos?.map((photo) => (
+                                <Card key={photo.id}>
+                                    <Image src={photo.url}></Image>
+                                </Card>
+                            ))}
+                        </Card.Group>
+                    )}
+                </Grid.Column>
+            </Grid>
         </Tab.Pane>
     );
 });
