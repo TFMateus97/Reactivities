@@ -18,6 +18,7 @@ using Application.Interfaces;
 using Infrastructure.Security;
 using Infrastructure.Photos;
 using Application.Photos;
+using API.SignalR;
 
 namespace API
 {
@@ -66,6 +67,7 @@ namespace API
             services.AddScoped<IUserAccessor, UserAccessor>(); //agora é possível obter o usuário logado
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.Configure<CloudinarySettings>(_config.GetSection("Cloudinary"));
+            services.AddSignalR();
 
             services.AddIdentityServices(_config);
         }
@@ -91,6 +93,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
