@@ -49,9 +49,16 @@ export default observer(function ActivityDetailedChat({ activityId }: Props) {
                                     {comment.displayName}
                                 </Comment.Author>
                                 <Comment.Metadata>
-                                    <div>{comment.createdAt}</div>
+                                    <div>
+                                        {fomartDistanceToNow(comment.createdAt)}{" "}
+                                        ago
+                                    </div>
                                 </Comment.Metadata>
-                                <Comment.Text>{comment.body}</Comment.Text>
+                                <Comment.Text
+                                    style={{ whiteSpace: "pre-wrap" }}
+                                >
+                                    {comment.body}
+                                </Comment.Text>
                             </Comment.Content>
                         </Comment>
                     ))}
@@ -107,3 +114,6 @@ export default observer(function ActivityDetailedChat({ activityId }: Props) {
         </>
     );
 });
+function fomartDistanceToNow(createdAt: Date): React.ReactNode {
+    throw new Error("Function not implemented.");
+}
