@@ -10,16 +10,18 @@ import "react-calendar/dist/Calendar.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { createBrowserHistory } from "history";
+import ScrollToTop from "./app/layout/ScrollToTop";
 
 export const history = createBrowserHistory();
 
 ReactDOM.render(
-  <StoreContext.Provider value={store}>
-    <Router history={history}>
-      <App />
-    </Router>
-  </StoreContext.Provider>,
-  document.getElementById("root")
+    <StoreContext.Provider value={store}>
+        <Router history={history}>
+            <ScrollToTop></ScrollToTop>
+            <App />
+        </Router>
+    </StoreContext.Provider>,
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

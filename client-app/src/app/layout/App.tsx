@@ -11,11 +11,11 @@ import TestErrors from "../../features/errors/TestErrors";
 import { ToastContainer } from "react-toastify";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
-import LoginForm from "../../features/users/LoginForm";
 import { useStore } from "../stores/store";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/modalContainer";
 import ProfilePage from "../../features/profiles/ProfilePage";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
     const location = useLocation();
@@ -49,35 +49,31 @@ function App() {
                         <Container style={{ marginTop: "7em" }}>
                             {/*  Garantir que o nome da rota seja apenas o informado no path */}
                             <Switch>
-                                <Route
+                                <PrivateRoute
                                     exact
                                     path="/activities"
                                     component={ActivityDashboard}
-                                ></Route>
-                                <Route
+                                ></PrivateRoute>
+                                <PrivateRoute
                                     path="/activities/:id"
                                     component={ActivityDetails}
-                                ></Route>
-                                <Route
+                                ></PrivateRoute>
+                                <PrivateRoute
                                     key={location.key}
                                     path={["/createActivity", "/manage/:id"]}
                                     component={ActivityForm}
-                                ></Route>
-                                <Route
+                                ></PrivateRoute>
+                                <PrivateRoute
                                     path="/profiles/:username"
                                     component={ProfilePage}
-                                ></Route>
-                                <Route
+                                ></PrivateRoute>
+                                <PrivateRoute
                                     path="/errors"
                                     component={TestErrors}
-                                ></Route>
+                                ></PrivateRoute>
                                 <Route
                                     path="/server-errors"
                                     component={ServerError}
-                                ></Route>
-                                <Route
-                                    path="/login"
-                                    component={LoginForm}
                                 ></Route>
                                 <Route component={NotFound}></Route>
                             </Switch>
