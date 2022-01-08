@@ -120,7 +120,7 @@ export default class ActivityStore {
         } else {
             this.loadingInitial = true;
             try {
-                var activity = await agent.Activities.details(id);
+                activity = await agent.Activities.details(id);
                 this.setActivity(activity);
                 runInAction(() => {
                     this.selectedActivity = activity;
