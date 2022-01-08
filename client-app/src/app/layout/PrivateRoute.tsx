@@ -18,12 +18,11 @@ export default function PrivateRoute({ component: Component, ...rest }: Props) {
     } = useStore();
 
     return (
-        <Route>
+        <Route
             {...rest}
-            render=
-            {(props) =>
+            render={(props) =>
                 isLoggedIn ? <Component {...props} /> : <Redirect to={"/"} />
             }
-        </Route>
+        />
     );
 }
