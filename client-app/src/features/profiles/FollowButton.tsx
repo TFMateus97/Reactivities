@@ -30,7 +30,7 @@ export default observer(function FollowButton({ profile }: Props) {
                     content={profile.following ? "Following" : "Not following"}
                 ></Button>
             </Reveal.Content>
-            <Reveal.Content visible style={{ width: "100%" }}>
+            <Reveal.Content hidden style={{ width: "100%" }}>
                 <Button
                     fluid
                     basic
