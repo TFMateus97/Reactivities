@@ -89,6 +89,7 @@ namespace API
                 options.UseNpgsql(connStr);
             });
 
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
