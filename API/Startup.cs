@@ -52,7 +52,7 @@ namespace API
             });
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(_config.GetConnectionString("DefaultConnection"));
             });
             services.AddCors(opt =>
             {
