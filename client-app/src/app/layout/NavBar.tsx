@@ -32,7 +32,7 @@ export default observer(function NavBar() {
                 </Menu.Item>
                 <Menu.Item position="right">
                     <Image
-                        src={user?.image || "/asset/user.png"}
+                        src={user?.image || "/assets/user.png"}
                         avatar
                         space="right"
                     />
